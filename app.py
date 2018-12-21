@@ -60,6 +60,43 @@ def saveArticle(url, title, text):
     ))
     con.commit()
 
+@app.route("/goals", methods=['POST'])
+def addGoalsRoute():
+    name = request.get_json()['name']
+    timespan = request.get_json()['timespan']
+    bookmarks = request.get_json()['bookmarks']
+
+    host = "mysql"
+    user = "app"
+    password = "asdasd"
+    db = "app"
+
+    con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors.DictCursor)
+    cur = con.cursor()
+
+    cur.execute(
+        "INSERT INTO goals (name, timespan) VALUES (%s, %s)",
+        (
+            name, timespan
+        ))
+    con.commit()
+
+    goal_id = cur.lastrowid
+
+
+    print(bookmarks)
+
+    for article_id in bookmarks:
+        cur = con.cursor()
+
+        cur.execute(
+            "INSERT INTO goal_articles (goal_id, article_id, `read`) VALUES (%s, %s, 0)",
+            (
+                goal_id, article_id
+            ))
+        con.commit()
+
+    return "true"
 
 @app.route("/article/get", methods=['GET'])
 def list_articles():

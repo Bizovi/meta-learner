@@ -82,6 +82,60 @@
       </div>
 
 
+        <div class="container">
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h2>Add goal</h2>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 order-md-1">
+          <form id="addGoalForm" class="needs-validation" novalidate>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Master MATH" value="" required>
+
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="timespan">Timespan</label>
+                <input type="number" class="form-control" name="timespan" id="timespan" placeholder="Total number of hours" value="" required>
+              </div>
+            </div>
+
+
+              <div class="mb-3">
+          <div class="progress" style="height: 3px;">
+              <div class="progress-bar" id="progressBar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+
+              <div class="row">
+              <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Bookmark</th>
+      <th scope="col">Reading time</th>
+    </tr>
+  </thead>
+  <tbody id="goalBookmarks">
+
+  </tbody>
+</table>
+
+              </div>
+
+              </div>
+
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Add</button>
+          </form>
+        </div>
+      </div>
+
+
+
+
       <footer class="my-5 pt-5 text-muted text-center text-small">
         <p class="mb-1">&copy; 2017-2018 MetaLearner</p>
       </footer>
@@ -161,28 +215,117 @@
 
             getCategories();
 
-            var getBookmarks = function() {
+            var getBookmarks = function(success) {
                 url = baseUrl + 'article/get'
 
                 $.ajax({
                     type: "GET",
                     url: url,
-                    success: function (response) {
-                        var li = '<li class="list-group-item"></li>';
-                        var list = $('#list');
-
-                        response.forEach(function (article) {
-                           $(list).append('<li class="list-group-item"><a href="' + article.url + '" target="_blank">' + article.title +  '</a></li>');
-                        });
-
-
-                    },
+                    success: success,
                     dataType: 'json',
                     contentType: 'application/json'
                 })
             }
 
-            getBookmarks();
+            getBookmarks(function (response) {
+                var list = $('#list')
+                // var select = $('#goalBookmarks');
+                var table = $('#goalBookmarks');
+
+                response.forEach(function (article) {
+                   $(list).append('<li class="list-group-item"><a href="' + article.url + '" target="_blank">' + article.title +  '</a></li>');
+                   // $(select).append('<option value="' + article.id + '">' + article.title + '</option>');
+
+
+                    $(table).append('<tr><td><input type="checkbox" name="bookmarks[]" value="' + article.id + '" ml-duration="' + article.reading_time + '"></td><td>' + article.title + '</td><td>' + article.reading_time + '</td></tr>')
+
+                });
+            });
+
+            $('body').on('click', 'td', function () {
+                var checkbox = $(this).parents('tr').find('input');
+                checkbox.prop('checked', ! checkbox.prop('checked'));
+
+                progressBar()
+            });
+
+
+            $('#timespan').on('keyup', function () {
+                progressBar()
+            });
+
+            var progressBar = function () {
+                var timespan = $('#timespan').val();
+
+                var totalDuration = 0;
+
+                $('[name="bookmarks[]"]').each(function (i, el) {
+                    if ($(el).prop('checked')) {
+                        duration = $(el).attr('ml-duration');
+                        totalDuration += parseInt(duration)
+                    }
+                });
+
+                percentage = (totalDuration / timespan) * 100;
+                $('#progressBar').css('width', percentage + '%');
+
+
+                if (percentage <= 25) {
+                    className = 'bg-success';
+                }
+
+                if (percentage > 25 && percentage <= 50) {
+                    className = 'bg-info';
+                }
+
+                if (percentage > 50 && percentage <= 75) {
+                    className = 'bg-warning';
+                }
+
+                if (percentage > 75 && percentage <= 100) {
+                    className = 'bg-danger';
+                }
+
+                $('#progressBar').removeClass();
+                $('#progressBar').addClass('progress-bar ' + className);
+            }
+
+            $('#addGoalForm').on('submit', function (e) {
+               e.preventDefault();
+
+                addGoal(this, function() {
+
+                })
+            });
+
+            var addGoal = function(form, success) {
+                url = baseUrl + 'goals';
+
+
+                bookmarks = [];
+
+
+                $(form).find('[name="bookmarks[]"]:checked').each(function (i, bm) {
+                    bookmarks.push(parseInt($(bm).val()));
+                })
+
+
+                request = {
+                    name: $(form).find('#name').val(),
+                    timespan: $(form).find('#timespan').val(),
+                    bookmarks: bookmarks
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    success: success,
+                    data: JSON.stringify(request),
+                    dataType: 'json',
+                    contentType: 'application/json'
+                })
+            }
+
         });
     </script>
   </body>
