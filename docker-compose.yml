@@ -3,11 +3,13 @@ version: '3.2'
 services:
   application:
     build:
-      context: docker/app
+      context: .
     volumes:
       - ./:/var/www
     ports:
       - 8181:5000
+    networks:
+      - default
 
   mysql:
     build:
@@ -21,6 +23,11 @@ services:
       - 3131:3306
     volumes:
       - mysql:/var/lib/mysql
+    networks:
+      - default
 
 volumes:
   mysql:
+
+networks:
+  default:

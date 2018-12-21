@@ -1,4 +1,4 @@
-FROM mysql:8
+FROM mysql:5.6
 
 ADD . /tmp/db
-RUN /tmp/db/migrate.sh
+#RUN sleep 15 && /tmp/db/migrate.sh

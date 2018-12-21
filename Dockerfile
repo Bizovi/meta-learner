@@ -11,7 +11,8 @@ RUN curl https://raw.githubusercontent.com/codelucas/newspaper/master/download_c
 RUN pip3 install newspaper3k
 RUN pip3 install flask
 RUN pip3 install ujson
+RUN pip3 install flask-mysql
 
 WORKDIR /var/www
-ADD ../.. /var/www
+ADD . /var/www
 CMD python app.py

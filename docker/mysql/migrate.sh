@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mysql -u root -pasdasd app < /tmp/db/db.sql
+mysql -u app -pasdasd app < /tmp/db/db.sql

@@ -1,8 +1,9 @@
+import ujson
 from flask import Flask
 from newspaper import Article
 from flask import request
-import ujson
 from flask import Response
+import pymysql
 
 
 app = Flask(__name__)
@@ -15,10 +16,9 @@ def hello():
 
     resp = Response(response, status=200, mimetype='application/json')
 
+    saveArticle(url, parsedData['title'], parsedData['text'])
+
     return resp
-
-
-    # return json.dumps(extractArticle(url))
 
 def extractArticle(url):
     article = Article(url)
@@ -26,17 +26,33 @@ def extractArticle(url):
 
     article.parse()
 
-    print(article.title.encode("utf-8"))
+    # print(article.text.encode("utf-8"))
+    # print(article.title.encode("utf-8"))
     # print(article.authors)
     # print(article.publish_date)
-    print(article.text.encode("utf-8"))
     # print(article.top_image)
     # print(article.movies)
+
     data = {}
     data['title'] = article.title.encode("utf-8")
     data['text'] = article.text.encode("utf-8")
 
     return data
+
+def saveArticle(url, title, text):
+    host = "mysql"
+    user = "app"
+    password = "asdasd"
+    db = "app"
+
+    con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors.
+                               DictCursor)
+    cur = con.cursor()
+
+    cur.execute("INSERT INTO articles (category_id, title, body, url, source, reading_time, created_at) VALUES (%s, %s, %s, %s, %s, %s, NOW())", (
+       0, title, text, url, '', 0
+    ))
+    con.commit()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
