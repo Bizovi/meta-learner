@@ -3,10 +3,11 @@ from flask import Flask
 from newspaper import Article
 from flask import request
 from flask import Response
+from flask_cors import CORS
 import pymysql
 
-
 app = Flask(__name__)
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 
 @app.route("/article", methods=['POST'])
 def hello():
@@ -45,8 +46,7 @@ def saveArticle(url, title, text):
     password = "asdasd"
     db = "app"
 
-    con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors.
-                               DictCursor)
+    con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors. DictCursor)
     cur = con.cursor()
 
     cur.execute("INSERT INTO articles (category_id, title, body, url, source, reading_time, created_at) VALUES (%s, %s, %s, %s, %s, %s, NOW())", (
