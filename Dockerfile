@@ -12,6 +12,7 @@ RUN pip3 install newspaper3k
 RUN pip3 install flask
 RUN pip3 install ujson
 RUN pip3 install flask-mysql
+RUN pip3 install -U flask-cors
 
 WORKDIR /var/www
 ADD . /var/www

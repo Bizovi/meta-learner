@@ -3,10 +3,11 @@ from flask import Flask
 from newspaper import Article
 from flask import request
 from flask import Response
+from flask_cors import CORS
 import pymysql
 
-
 app = Flask(__name__)
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 
 HOST = "mysql"
 USER = "app"
@@ -51,8 +52,7 @@ def saveArticle(url, title, text):
     password = "asdasd"
     db = "app"
 
-    con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors.
-                               DictCursor)
+    con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors. DictCursor)
     cur = con.cursor()
 
     cur.execute("INSERT INTO articles (category_id, title, body, url, source, reading_time, created_at) VALUES (%s, %s, %s, %s, %s, %s, NOW())", (
@@ -62,7 +62,7 @@ def saveArticle(url, title, text):
 
 
 @app.route("/article/get", methods=['GET'])
-def get_articles():
+def list_articles():
     con = pymysql.connect(
         host=HOST, user=USER, password=PASSWORD,
         db=DB, cursorclass=pymysql.cursors.DictCursor)
@@ -82,9 +82,6 @@ def add_tags():
     pass
 
 
-def create_category():
-    pass
-
 
 def create_goal():
     pass
@@ -101,7 +98,53 @@ def calculate_time():
 def add_article_to_goal():
     pass
 
+@app.route("/categories", methods=['GET'])
+def listCategories():
+    response = ujson.dumps(getCategories(), ensure_ascii=False)
 
+    resp = Response(response, status=200, mimetype='application/json')
+
+    return resp
+
+@app.route("/addCategory", methods=['POST'])
+def addCategory():
+    category = request.get_json()['category']
+
+    saveCategory(category)
+    response = ujson.dumps([], ensure_ascii=False)
+    resp = Response(response, status=200, mimetype='application/json')
+
+    return resp
+
+def getCategories():
+    host = "mysql"
+    user = "app"
+    password = "asdasd"
+    db = "app"
+
+    con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors.DictCursor)
+    cur = con.cursor()
+
+    cur.execute("SELECT * FROM categories")
+
+    categories = cur.fetchall()
+    return categories
+
+def saveCategory(category):
+    host = "mysql"
+    user = "app"
+    password = "asdasd"
+    db = "app"
+
+    con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors.DictCursor)
+    cur = con.cursor()
+
+    cur.execute(
+        "INSERT INTO categories (parent_id, name) VALUES (%s, %s)",
+        (
+            0, category
+        ))
+    con.commit()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
