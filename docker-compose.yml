@@ -3,14 +3,15 @@ version: '3.2'
 services:
   application:
     build:
-      context: .
+      context: docker/app
     volumes:
       - ./:/var/www
     ports:
       - 8181:5000
 
   mysql:
-    image: mysql:8
+    build:
+      context: docker/mysql
     environment:
       MYSQL_DATABASE: app
       MYSQL_USER: app
@@ -18,3 +19,8 @@ services:
       MYSQL_PASSWORD: asdasd
     ports:
       - 3131:3306
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql:

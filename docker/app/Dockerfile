@@ -13,5 +13,5 @@ RUN pip3 install flask
 RUN pip3 install ujson
 
 WORKDIR /var/www
-ADD . /var/www
+ADD ../.. /var/www
 CMD python app.py
