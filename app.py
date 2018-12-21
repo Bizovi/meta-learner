@@ -54,5 +54,53 @@ def saveArticle(url, title, text):
     ))
     con.commit()
 
+@app.route("/categories", methods=['GET'])
+def listCategories():
+    response = ujson.dumps(getCategories(), ensure_ascii=False)
+
+    resp = Response(response, status=200, mimetype='application/json')
+
+    return resp
+
+@app.route("/addCategory", methods=['POST'])
+def addCategory():
+    category = request.get_json()['category']
+
+    saveCategory(category)
+    response = ujson.dumps([], ensure_ascii=False)
+    resp = Response(response, status=200, mimetype='application/json')
+
+    return resp
+
+def getCategories():
+    host = "mysql"
+    user = "app"
+    password = "asdasd"
+    db = "app"
+
+    con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors.DictCursor)
+    cur = con.cursor()
+
+    cur.execute("SELECT * FROM categories")
+
+    categories = cur.fetchall()
+    return categories
+
+def saveCategory(category):
+    host = "mysql"
+    user = "app"
+    password = "asdasd"
+    db = "app"
+
+    con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors.DictCursor)
+    cur = con.cursor()
+
+    cur.execute(
+        "INSERT INTO categories (parent_id, name) VALUES (%s, %s)",
+        (
+            0, category
+        ))
+    con.commit()
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

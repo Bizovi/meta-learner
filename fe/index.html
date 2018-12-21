@@ -26,7 +26,7 @@
         <div class="col-md-12 order-md-1">
           <form id="addCategoryForm" class="needs-validation" novalidate>
               <div class="row">
-              <div class="col-md-6 mb-3">
+              <div class="col-md-6 mb-3" style="display: none">
                 <label for="parent">Parent</label>
                   <select id="parent" class="form-control">
                       <option value="0">None</option>
@@ -69,8 +69,6 @@
       </div>
 
 
-
-
       <footer class="my-5 pt-5 text-muted text-center text-small">
         <p class="mb-1">&copy; 2017-2018 MetaLearner</p>
       </footer>
@@ -107,6 +105,28 @@
                 });
             }
 
+            $("#addCategoryForm").on('submit', function (e) {
+                e.preventDefault();
+
+                addCategory($(this).find('#category').first().val());
+            });
+
+            addCategory = function(category) {
+                request = {
+                    'category': category
+                }
+
+                url = baseUrl + 'addCategory';
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify(request),
+                    dataType: 'json',
+                    contentType: 'application/json'
+                });
+            }
+
             getCategories = function () {
                 url = baseUrl + 'categories';
                 $.ajax({
@@ -114,7 +134,13 @@
                     url: url,
                     dataType: 'json',
                     success: function (response) {
-                        console.log(response);
+                        defaultOption = '<option value=0>None</option>';
+                        var parent = $('#parent');
+                        parent.html(defaultOption);
+
+                        response.forEach(function (category) {
+                            parent.append('<option value=' + category.id + '>' + category.name + '</option>');
+                        })
                     },
                     contentType: 'application/json'
                 });
