@@ -16,6 +16,20 @@
 
   <body class="bg-light">
 
+      <div class="container">
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h2>Bookmarks</h2>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 order-md-1">
+            <ul class="list-group" id="list">
+            </ul>
+        </div>
+      </div>
+
+
     <div class="container">
       <div class="py-5 text-center">
         <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
@@ -48,7 +62,6 @@
           </form>
         </div>
       </div>
-
 
     <div class="container">
       <div class="py-5 text-center">
@@ -147,6 +160,29 @@
             }
 
             getCategories();
+
+            var getBookmarks = function() {
+                url = baseUrl + 'article/get'
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (response) {
+                        var li = '<li class="list-group-item"></li>';
+                        var list = $('#list');
+
+                        response.forEach(function (article) {
+                           $(list).append('<li class="list-group-item"><a href="' + article.url + '" target="_blank">' + article.title +  '</a></li>');
+                        });
+
+
+                    },
+                    dataType: 'json',
+                    contentType: 'application/json'
+                })
+            }
+
+            getBookmarks();
         });
     </script>
   </body>

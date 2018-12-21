@@ -66,7 +66,7 @@ def list_articles():
     con = pymysql.connect(
         host=HOST, user=USER, password=PASSWORD,
         db=DB, cursorclass=pymysql.cursors.DictCursor)
-    query = "SELECT id, title, url, created_at, reading_time FROM articles"
+    query = "SELECT id, title, url, created_at, reading_time FROM articles ORDER BY id DESC"
 
     cur = con.cursor()
     cur.execute(query)
