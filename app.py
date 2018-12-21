@@ -98,6 +98,7 @@ def addGoalsRoute():
 
     return "true"
 
+
 @app.route("/article/get", methods=['GET'])
 def list_articles():
     con = pymysql.connect(
@@ -109,11 +110,56 @@ def list_articles():
     cur.execute(query)
     articles = cur.fetchall()
 
-    response =  ujson.dumps(articles, ensure_ascii=False)
+    response = ujson.dumps(articles, ensure_ascii=False)
     resp = Response(response, status=200, mimetype='application/json')
-    
+
     return resp
 
+
+@app.route("/goals/get", methods=['GET'])
+def list_goals():
+    con = pymysql.connect(
+        host=HOST, user=USER, password=PASSWORD,
+        db=DB, cursorclass=pymysql.cursors.DictCursor)
+    query = "SELECT * FROM goals ORDER BY id DESC"
+
+    cur = con.cursor()
+    cur.execute(query)
+    articles = cur.fetchall()
+
+    response = ujson.dumps(articles, ensure_ascii=False)
+    resp = Response(response, status=200, mimetype='application/json')
+
+    return resp
+
+@app.route("/goals/get/<id>", methods=['GET'])
+def get_goal(id):
+    con = pymysql.connect(
+        host=HOST, user=USER, password=PASSWORD,
+        db=DB, cursorclass=pymysql.cursors.DictCursor)
+    query = "SELECT * FROM goals WHERE id = %s"
+
+    cur = con.cursor()
+    cur.execute(query, (id))
+    bookmark = cur.fetchone()
+    bookmark['bookmarks'] = get_goal_articles(id)
+    response = ujson.dumps(bookmark, ensure_ascii=False)
+    resp = Response(response, status=200, mimetype='application/json')
+
+    return resp
+
+
+def get_goal_articles(goal_id):
+    con = pymysql.connect(
+        host=HOST, user=USER, password=PASSWORD,
+        db=DB, cursorclass=pymysql.cursors.DictCursor)
+    query = "SELECT a.*, ga.read FROM articles a LEFT JOIN goal_articles ga ON ga.article_id = a.id WHERE ga.goal_id = %s"
+
+    cur = con.cursor()
+    cur.execute(query, (goal_id))
+    articles = cur.fetchall()
+
+    return articles
 
 def filter_articles():
     pass

@@ -16,52 +16,6 @@
 
   <body class="bg-light">
 
-      <div class="container">
-      <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-        <h2>Bookmarks</h2>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12 order-md-1">
-            <ul class="list-group" id="list">
-            </ul>
-        </div>
-      </div>
-
-
-    <div class="container">
-      <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-        <h2>Add category</h2>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12 order-md-1">
-          <form id="addCategoryForm" class="needs-validation" novalidate>
-              <div class="row">
-              <div class="col-md-6 mb-3" style="display: none">
-                <label for="parent">Parent</label>
-                  <select id="parent" class="form-control">
-                      <option value="0">None</option>
-                  </select>
-                <div class="invalid-feedback">
-                  Valid first name is required.
-                </div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="category">Name</label>
-                <input type="text" class="form-control" id="category" placeholder="Math" value="" required>
-                <div class="invalid-feedback">
-                  Valid last name is required.
-                </div>
-              </div>
-            </div>
-
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Add</button>
-          </form>
-        </div>
-      </div>
 
     <div class="container">
       <div class="py-5 text-center">
@@ -80,6 +34,22 @@
           </form>
         </div>
       </div>
+
+
+      <div class="container">
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h2>Bookmarks</h2>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 order-md-1">
+            <ul class="list-group" id="list">
+            </ul>
+        </div>
+      </div>
+
+
 
 
         <div class="container">
@@ -134,6 +104,107 @@
       </div>
 
 
+
+
+      <div class="container">
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h2>Goals</h2>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 order-md-1">
+            <ul class="list-group" id="goals">
+            </ul>
+        </div>
+      </div>
+
+
+        <div class="container">
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h2 id="goalName"></h2>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 order-md-1">
+          <form id="openGoalForm" class="needs-validation" novalidate>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="openGoalName" name="name" placeholder="Master MATH" value="">
+
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="timespan">Timespan</label>
+                <input type="number" class="form-control" name="timespan" id="openGoalTimespan" placeholder="Total number of hours" value="">
+              </div>
+            </div>
+
+
+              <div class="mb-3">
+          <div class="progress" style="height: 3px;">
+              <div class="progress-bar" id="openGoalProgressBar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+
+              <div class="row">
+              <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Bookmark</th>
+      <th scope="col">Reading time</th>
+      <th scope="col">Read</th>
+    </tr>
+  </thead>
+  <tbody id="openGoalBookmarks">
+
+  </tbody>
+</table>
+
+              </div>
+
+              </div>
+
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
+          </form>
+        </div>
+      </div>
+
+
+
+    <!--<div class="container">-->
+      <!--<div class="py-5 text-center">-->
+        <!--<img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
+        <!--<h2>Add category</h2>-->
+      <!--</div>-->
+
+      <!--<div class="row">-->
+        <!--<div class="col-md-12 order-md-1">-->
+          <!--<form id="addCategoryForm" class="needs-validation" novalidate>-->
+              <!--<div class="row">-->
+              <!--<div class="col-md-6 mb-3" style="display: none">-->
+                <!--<label for="parent">Parent</label>-->
+                  <!--<select id="parent" class="form-control">-->
+                      <!--<option value="0">None</option>-->
+                  <!--</select>-->
+                <!--<div class="invalid-feedback">-->
+                  <!--Valid first name is required.-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col-md-6 mb-3">-->
+                <!--<label for="category">Name</label>-->
+                <!--<input type="text" class="form-control" id="category" placeholder="Math" value="" required>-->
+                <!--<div class="invalid-feedback">-->
+                  <!--Valid last name is required.-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--<button class="btn btn-primary btn-lg btn-block" type="submit">Add</button>-->
+          <!--</form>-->
+        <!--</div>-->
+      <!--</div>-->
 
 
       <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -242,13 +313,99 @@
                 });
             });
 
-            $('body').on('click', 'td', function () {
+             var getGoals = function(success) {
+                url = baseUrl + 'goals/get'
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: success,
+                    dataType: 'json',
+                    contentType: 'application/json'
+                })
+            }
+
+            openGoal = function (id) {
+                 url = baseUrl + 'goals/get/' + id
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (goal) {
+                        $('#goalName').html(goal.name);
+                        $('#openGoalName').val(goal.name);
+                        $('#openGoalTimespan').val(goal.timespan);
+                        goal.bookmarks.forEach(function (article) {
+                            $('#openGoalBookmarks').append('<tr><td>' + article.title + '</td><td>' + article.reading_time + '</td><td><input type="checkbox" name="read[]" value="' + article.id + '" ml-duration="' + article.reading_time + '"></td></tr>')
+
+                        });
+                    },
+                    dataType: 'json',
+                    contentType: 'application/json'
+                })
+            }
+
+             getGoals(function (response) {
+                var list = $('#goals')
+
+                response.forEach(function (goal) {
+                   $(list).append('<li class="list-group-item"><a onclick="openGoal(' + goal.id + ')" target="_blank">' + goal.name +  ' (<b>' + goal.timespan + '</b> hours) </a></li>');
+                });
+            });
+
+
+            $('body').on('click', '#addGoalForm td', function () {
                 var checkbox = $(this).parents('tr').find('input');
                 checkbox.prop('checked', ! checkbox.prop('checked'));
 
                 progressBar()
             });
 
+
+
+            $('body').on('click', '#openGoalBookmarks td', function () {
+                var checkbox = $(this).parents('tr').find('input');
+                checkbox.prop('checked', ! checkbox.prop('checked'));
+
+                goalProgressBar();
+            });
+
+
+            var goalProgressBar = function () {
+                var timespan = parseInt($('#openGoalTimespan').val());
+                var readDuration = 0;
+                $('#openGoalBookmarks').find('input:checked').each(function (i, input) {
+                   duration = $(input).attr('ml-duration');
+                    readDuration += parseInt(duration);
+                });
+
+                percentage = (readDuration / timespan) * 100;
+
+                drawProgressBar('#openGoalProgressBar', percentage)
+            }
+
+            var drawProgressBar = function(id, percentage) {
+                 $(id).css('width', percentage + '%');
+
+                if (percentage <= 25) {
+                    className = 'bg-success';
+                }
+
+                if (percentage > 25 && percentage <= 75) {
+                    className = 'bg-info';
+                }
+
+                if (percentage > 75 && percentage <= 90) {
+                    className = 'bg-warning';
+                }
+
+                if (percentage > 90 && percentage <= 100) {
+                    className = 'bg-danger';
+                }
+
+                $(id).removeClass();
+                $(id).addClass('progress-bar ' + className);
+            }
 
             $('#timespan').on('keyup', function () {
                 progressBar()
@@ -267,27 +424,7 @@
                 });
 
                 percentage = (totalDuration / timespan) * 100;
-                $('#progressBar').css('width', percentage + '%');
-
-
-                if (percentage <= 25) {
-                    className = 'bg-success';
-                }
-
-                if (percentage > 25 && percentage <= 50) {
-                    className = 'bg-info';
-                }
-
-                if (percentage > 50 && percentage <= 75) {
-                    className = 'bg-warning';
-                }
-
-                if (percentage > 75 && percentage <= 100) {
-                    className = 'bg-danger';
-                }
-
-                $('#progressBar').removeClass();
-                $('#progressBar').addClass('progress-bar ' + className);
+                drawProgressBar('#progressBar', percentage)
             }
 
             $('#addGoalForm').on('submit', function (e) {
