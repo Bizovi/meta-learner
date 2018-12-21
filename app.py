@@ -71,7 +71,11 @@ def list_articles():
     cur = con.cursor()
     cur.execute(query)
     articles = cur.fetchall()
-    return ujson.dumps(articles)
+
+    response =  ujson.dumps(articles, ensure_ascii=False)
+    resp = Response(response, status=200, mimetype='application/json')
+    
+    return resp
 
 
 def filter_articles():
